@@ -9,10 +9,23 @@ import SingleItem from './SingleItem';
 import Items from './Items';
 
 
+const getLocalStorage = () => {
+  let List = localStorage.getItem('list');
+  console.log(List);
+  if(List){
+    List = JSON.parse(localStorage.getItem('list'));
+  }else{
+   List = []
+  }
+  return List;
+
+}
+
 const setLocalStorage = (items) => {
   localStorage.setItem('list', JSON.stringify(items));  
 }
 
+const defaultItem = JSON.parse(localStorage.getItem('list') || '[]');
 function App() {
   const [items, setItems] = useState([]);
 
@@ -22,13 +35,15 @@ function App() {
       completed: false,
       id: nanoid(),
     };
-    setItems([...items, newItem])
-    setLocalStorage(items);
+   const newItems = [...items, newItem];
+   setItems(newItems);
+    setLocalStorage(newItems);
   }
 
   const removeItem = (itemId) => {
      const newItem = items.filter((item) => item.id !== itemId);
   } 
+  
 
   return (
     <div className="App">
