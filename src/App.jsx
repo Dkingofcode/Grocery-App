@@ -1,35 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import Form from "./Form";
+import nanoid from 'nanoid';
+import SingleItem from './SingleItem';
+import SingleItem from './SingleItem';
+import Items from './Items';
+
+
+const setLocalStorage = (items) => {
+  localStorage.setItem('list', JSON.stringify(items));  
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [items, setItems] = useState([]);
+
+  const addItem = (itemName) => {
+    const newItem = {
+      name: itemName,
+      completed: false,
+      id: nanoid(),
+    };
+    setItems([...items, newItem])
+    setLocalStorage(items);
+  }
+
+  const removeItem = (itemId) => {
+     const newItem = items.filter((item) => item.id !== itemId);
+  } 
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <Form addItem={addItem}/>
+    <Items removeItem={removeItem} items={items}/>         
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
