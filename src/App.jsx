@@ -7,6 +7,7 @@ import nanoid from 'nanoid';
 import SingleItem from './SingleItem';
 import SingleItem from './SingleItem';
 import Items from './Items';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const getLocalStorage = () => {
@@ -43,12 +44,19 @@ function App() {
   const removeItem = (itemId) => {
      const newItem = items.filter((item) => item.id !== itemId);
   } 
-  
+
+  const editItem = (itemId) => {
+     const newItem = {
+      name: itemName,
+      completed: !completed,
+     }
+  }
 
   return (
     <div className="App">
     <Form addItem={addItem}/>
-    <Items removeItem={removeItem} items={items}/>         
+    <Items removeItem={removeItem} items={items} editItem={editItem} />         
+    <ToastContainer />
     </div>
   );
 };
